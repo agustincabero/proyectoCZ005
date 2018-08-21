@@ -240,8 +240,9 @@ Juego.dibujar = function() {
   Dibujante.dibujarRectangulo('blue', 790, 536, 70, 4);
   Dibujante.dibujarRectangulo('purple', 790, 540, 70, 4)
 
-  //Dibujar Mensaje
-
+  //Dibujar Mensaje  
+  //Dibujante.dibujarImagen('imagenes/mensaje1.png', 0, 5, this.anchoCanvas, this.altoCanvas);
+  //Dibujante.dibujarImagen('imagenes/mensaje2.png', 0, 5, this.anchoCanvas, this.altoCanvas)
 };
 
 /* Recorre los enemigos haciendo que se muevan. De la misma forma que hicimos
