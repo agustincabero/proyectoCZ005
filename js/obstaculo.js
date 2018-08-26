@@ -8,7 +8,7 @@ var Obstaculo = function (sprite, x, y, ancho, alto, potencia) {
   this.ancho = ancho;
   this.alto = alto;
   this.potencia = potencia;
-  this.chocar = function(jugador) {
+  this.chocar = function(jugador){
     jugador.perderVidas(this.potencia);
     this.potencia = 0;
   }

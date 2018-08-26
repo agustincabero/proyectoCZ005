@@ -14,13 +14,12 @@ var Juego = {
   altoCanvas: 577,
   jugador: Jugador,
   vidasInicial: Jugador.vidas,
-  // Indica si el jugador gano
-  ganador: false,
+  finJuego: false,
 
   obstaculosCarretera: [
     /*Aca se van a agregar los obstaculos visibles. Tenemos una valla horizontal
     de ejemplo, pero podras agregar muchos mas. */
-    new Obstaculo('imagenes/valla_horizontal.png', 80, 40, 30, 30, 1),
+		new Obstaculo('imagenes/valla_horizontal.png', 80, 40, 30, 30, 1),
     new Obstaculo('imagenes/valla_horizontal.png', 120, 40, 30, 30, 1),
     new Obstaculo('imagenes/valla_horizontal.png', 160, 40, 30, 30, 1),
     new Obstaculo('imagenes/valla_horizontal.png', 70, 430, 30, 30, 1),
@@ -36,6 +35,7 @@ var Juego = {
     new Obstaculo('imagenes/auto_verde_derecha.png', 350, 250, 30, 15, 2),
     new Obstaculo('imagenes/auto_verde_abajo.png', 755, 155, 15, 30, 2)
   ],
+
   /* Estos son los bordes con los que se puede chocar, por ejemplo, la vereda.
    Ya estan ubicados en sus lugares correspondientes. Ya aparecen en el mapa, ya
    que son invisibles. No tenes que preocuparte por ellos.*/
@@ -46,18 +46,19 @@ var Juego = {
     new Obstaculo('', 0, 5, 18, 572, 0),
     new Obstaculo('', 943, 5, 18, 572, 0),
     // Veredas
-    new Obstaculo('', 18, 23, 51, 536, 2),
-    new Obstaculo('', 69, 507, 690, 52, 2),
-    new Obstaculo('', 587, 147, 173, 360, 2),
-    new Obstaculo('', 346, 147, 241, 52, 2),
-    new Obstaculo('', 196, 267, 263, 112, 2),
-    new Obstaculo('', 196, 23, 83, 244, 2),
-    new Obstaculo('', 279, 23, 664, 56, 2),
-    new Obstaculo('', 887, 79, 56, 480, 2)
+    new Obstaculo('', 18, 23, 51, 536, 1),
+    new Obstaculo('', 69, 507, 690, 52, 1),
+    new Obstaculo('', 587, 147, 173, 360, 1),
+    new Obstaculo('', 346, 147, 241, 52, 1),
+    new Obstaculo('', 196, 267, 263, 112, 1),
+    new Obstaculo('', 196, 23, 83, 244, 1),
+    new Obstaculo('', 279, 23, 664, 56, 1),
+    new Obstaculo('', 887, 79, 56, 480, 1)
   ],
+
   // Los enemigos se agregaran en este arreglo.
   enemigos: [
-    new ZombieCaminante('imagenes/zombie1.png', 390, 155, 10, 10, 1, {
+		new ZombieCaminante('imagenes/zombie1.png', 390, 155, 10, 10, 1, {
       desdeX: 0,
       hastaX: 961,
       desdeY: 0,
@@ -69,25 +70,25 @@ var Juego = {
       desdeY: 0,
       hastaY: 577
     }),
-    new ZombieCaminante('imagenes/zombie1.png', 380, 155, 10, 10, 1, {
+    new ZombieCaminante('imagenes/zombie2.png', 380, 155, 10, 10, 1, {
       desdeX: 0,
       hastaX: 961,
       desdeY: 0,
       hastaY: 577
     }),
-    new ZombieCaminante('imagenes/zombie2.png', 80, 355, 10, 10, 2, {
+    new ZombieCaminante('imagenes/zombie3.png', 80, 355, 10, 10, 2, {
       desdeX: 0,
       hastaX: 961,
       desdeY: 0,
       hastaY: 577
     }),
-    new ZombieCaminante('imagenes/zombie3.png', 80, 455, 10, 10, 1, {
+    new ZombieCaminante('imagenes/zombie4.png', 80, 455, 10, 10, 2, {
       desdeX: 0,
       hastaX: 961,
       desdeY: 0,
       hastaY: 577
     }),
-    new ZombieBoss('imagenes/zombie5.png', 780, 400, 30, 30, 7, {
+    new ZombieBoss('imagenes/zombie5.png', 780, 400, 30, 30, 5, {
       desdeX: 750,
       hastaX: 961,
       desdeY: 350,
@@ -98,19 +99,19 @@ var Juego = {
       hastaX: 961,
       desdeY:-20,
       hastaY: 600,
-    }, 'y'),
+    }, 'v'),
     new ZombieConductor('imagenes/tren_vertical.png', 678, 0, 30, 90, 8, { 
       desdeX: 0,
       hastaX: 961,
       desdeY: -15,
       hastaY: 600
-    }, 'y'),
+    }, 'v'),
     new ZombieConductor('imagenes/tren_horizontal.png', 400, 322, 90, 30, 11, {
       desdeX: 0,
       hastaX: 961,
       desdeY: 0,
       hastaY: 577
-    }, 'x')
+    }, 'h')		
   ]
 
 }
@@ -122,9 +123,9 @@ todas las demas. */
 Juego.iniciarRecursos = function() {
   Resources.load([
     'imagenes/mapa.png',
-    'imagenes/mensaje_gameover.png',
-    'imagenes/mensaje1.png',
-    'imagenes/mensaje2.png',
+		'imagenes/mensaje_gameover.png',
+		'imagenes/Mensaje1.png',
+    'imagenes/Mensaje2.png',
     'imagenes/Splash.png',
     'imagenes/bache.png',
     'imagenes/tren_horizontal.png',
@@ -134,21 +135,36 @@ Juego.iniciarRecursos = function() {
     'imagenes/zombie1.png',
     'imagenes/zombie2.png',
     'imagenes/zombie3.png',
-    'imagenes/zombie4.png',
+		'imagenes/zombie4.png',
+		'imagenes/zombie5.png',
     'imagenes/auto_rojo_abajo.png',
     'imagenes/auto_rojo_arriba.png',
     'imagenes/auto_rojo_derecha.png',
     'imagenes/auto_rojo_izquierda.png',
     'imagenes/auto_verde_abajo.png',
-    'imagenes/auto_verde_derecha.png',
-    'imagenes/zombie5.png'    
+    'imagenes/auto_verde_derecha.png'
   ]);
-  Resources.onReady(this.comenzar.bind(Juego));
+  Resources.onReady(this.intro.bind(Juego));
 };
 
 // Agrega los bordes de las veredas a los obstaculos de la carretera
 Juego.obstaculos = function() {
   return this.obstaculosCarretera.concat(this.bordes);
+};
+
+// Muestra los mensajes iniciales antes de comenzar el juego
+Juego.intro = function() {
+  Dibujante.inicializarCanvas(this.anchoCanvas, this.altoCanvas);
+  Dibujante.dibujarImagen('imagenes/Mensaje1.png', 0, 5, 961, 577);
+  setTimeout(function() {
+    Dibujante.borrarAreaDeJuego();
+  }, 3000);
+  setTimeout(function() {
+    Dibujante.dibujarImagen('imagenes/Mensaje2.png', 0, 5, 961, 577);
+  }, 3001);
+  setTimeout(function() {
+    Juego.comenzar();
+  }, 5500);
 };
 
 Juego.comenzar = function() {
@@ -158,10 +174,10 @@ Juego.comenzar = function() {
   los movimientos y el pintado de la pantalla. Sera el encargado de calcular los
   ataques, colisiones, etc*/
   this.buclePrincipal();
+  document.querySelector('audio').play();
 };
 
 Juego.buclePrincipal = function() {
-
   // Con update se actualiza la logica del juego, tanto ataques como movimientos
   this.update();
   // Funcion que dibuja por cada fotograma a los objetos en pantalla.
@@ -174,6 +190,7 @@ Juego.update = function() {
   this.calcularAtaques();
   this.moverEnemigos();
 }
+
 // Captura las teclas y si coincide con alguna de las flechas tiene que
 // hacer que el jugador principal se mueva
 Juego.capturarMovimiento = function(tecla) {
@@ -198,8 +215,8 @@ Juego.capturarMovimiento = function(tecla) {
   // Si se puede mover hacia esa posicion hay que hacer efectivo este movimiento
   if (this.chequearColisiones(movX + this.jugador.x, movY + this.jugador.y)) {
     /* Aca tiene que estar la logica para mover al jugador invocando alguno
-    de sus metodos  */
-    Jugador.mover(movX, movY, tecla);
+		de sus metodos  */
+		this.jugador.moverse(movX, movY, tecla);
   }
 };
 
@@ -209,40 +226,38 @@ Juego.dibujar = function() {
   //Se pinta la imagen de fondo segun el estado del juego
   this.dibujarFondo();
 
-  /* Aca hay que agregar la logica para poder dibujar al jugador principal
-  utilizando al dibujante y los metodos que nos brinda.
-  "Dibujante dibuja al jugador" */
-  Dibujante.dibujarEntidad(Jugador);
+	if(!this.finJuego){
+		/* Aca hay que agregar la logica para poder dibujar al jugador principal
+		utilizando al dibujante y los metodos que nos brinda.
+		"Dibujante dibuja al jugador" */
+		Dibujante.dibujarEntidad(this.jugador);
 
-  // Se recorren los obstaculos de la carretera pintandolos
-  this.obstaculosCarretera.forEach(function(obstaculo) {
-    Dibujante.dibujarEntidad(obstaculo);
-  });
+		// Se recorren los obstaculos de la carretera pintandolos
+		this.obstaculosCarretera.forEach(function(obstaculo) {
+			Dibujante.dibujarEntidad(obstaculo);
+		});
 
-  // Se recorren los enemigos pintandolos
-  this.enemigos.forEach(function(enemigo) {
-    Dibujante.dibujarEntidad(enemigo);
-  });
-
+		// Se recorren los enemigos pintandolos
+		this.enemigos.forEach(function(enemigo) {
+			Dibujante.dibujarEntidad(enemigo);
+		});
+		
+		//El dibujante dibuja la llegada
+		Dibujante.dibujarRectangulo('red', 790, 520, 70, 4);
+		Dibujante.dibujarRectangulo('orange', 790, 524, 70, 4);
+		Dibujante.dibujarRectangulo('yellow', 790, 528, 70, 4);
+		Dibujante.dibujarRectangulo('green', 790, 532, 70, 4);
+		Dibujante.dibujarRectangulo('blue', 790, 536, 70, 4);
+		Dibujante.dibujarRectangulo('purple', 790, 540, 70, 4)
+  }
+  	
   // El dibujante dibuja las vidas del jugador
   var tamanio = this.anchoCanvas / this.vidasInicial;
   Dibujante.dibujarRectangulo('white', 0, 0, this.anchoCanvas, 8);
   for (var i = 0; i < this.jugador.vidas; i++) {
     var x = tamanio * i
     Dibujante.dibujarRectangulo('red', x, 0, tamanio, 8);
-  }
-
-  //El dibujante dibuja la llegada
-  Dibujante.dibujarRectangulo('red', 790, 520, 70, 4);
-  Dibujante.dibujarRectangulo('orange', 790, 524, 70, 4);
-  Dibujante.dibujarRectangulo('yellow', 790, 528, 70, 4);
-  Dibujante.dibujarRectangulo('green', 790, 532, 70, 4);
-  Dibujante.dibujarRectangulo('blue', 790, 536, 70, 4);
-  Dibujante.dibujarRectangulo('purple', 790, 540, 70, 4)
-
-  //Dibujar Mensaje  
-  //Dibujante.dibujarImagen('imagenes/mensaje1.png', 0, 5, this.anchoCanvas, this.altoCanvas);
-  //Dibujante.dibujarImagen('imagenes/mensaje2.png', 0, 5, this.anchoCanvas, this.altoCanvas)
+	}	
 };
 
 /* Recorre los enemigos haciendo que se muevan. De la misma forma que hicimos
@@ -274,7 +289,7 @@ Juego.chequearColisiones = function(x, y) {
   var puedeMoverse = true
   this.obstaculos().forEach(function(obstaculo) {
     if (this.intersecan(obstaculo, this.jugador, x, y)) {
-      obstaculo.chocar(this.jugador);
+			obstaculo.chocar(this.jugador);
       puedeMoverse = false
     }
   }, this)
@@ -300,15 +315,17 @@ Juego.intersecan = function(elemento1, elemento2, x, y) {
 Juego.dibujarFondo = function() {
   // Si se termino el juego hay que mostrar el mensaje de game over de fondo
   if (this.terminoJuego()) {
+		this.finJuego = true;
     Dibujante.dibujarImagen('imagenes/mensaje_gameover.png', 0, 5, this.anchoCanvas, this.altoCanvas);
     document.getElementById('reiniciar').style.visibility = 'visible';
   }
 
   // Si se gano el juego hay que mostrar el mensaje de ganoJuego de fondo
   else if (this.ganoJuego()) {
-    Dibujante.dibujarImagen('imagenes/Splash.png', 190, 113, 500, 203);
+		this.finJuego = true;
+		Dibujante.dibujarImagen('imagenes/Splash.png', 190, 113, 500, 203);
     document.getElementById('reiniciar').style.visibility = 'visible';
-  } else {    
+  } else {
     Dibujante.dibujarImagen('imagenes/mapa.png', 0, 5, this.anchoCanvas, this.altoCanvas);
   }
 };
@@ -333,5 +350,6 @@ document.addEventListener('keydown', function(e) {
     39: 'der',
     40: 'abajo'
   };
+
   Juego.capturarMovimiento(allowedKeys[e.keyCode]);
 });
